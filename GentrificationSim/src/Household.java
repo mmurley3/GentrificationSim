@@ -5,7 +5,6 @@ public class Household {
     private int id;
     private double rentBudgetHigh;
     private double rentBudgetLow;
-    private boolean isVacant;
 
     public Household(int id, double rentBudgetHigh, double rentBudgetLow) {
         this.id = id;

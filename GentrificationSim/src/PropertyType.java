@@ -1,0 +1,4 @@
+
+public enum PropertyType {
+	RESIDENTIAL, COMMERCIAL, INDUSTRIAL, PARK
+}

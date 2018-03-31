@@ -3,6 +3,7 @@
  */
 public class Property {
     private double propertyValue;
+    private PropertyType type;
     private Household household;
 
     public Property(double propertyValue, Household household) {

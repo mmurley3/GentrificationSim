@@ -18,5 +18,9 @@ public class PropertyGrid {
             }
         }
     }
+    
+    public Property getProperty(int height, int width) {
+    	return grid[height][width];
+    }
 
 }
