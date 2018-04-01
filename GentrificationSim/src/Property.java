@@ -15,7 +15,13 @@ public class Property {
         return this.propertyValue;
     }
 
+    PropertyType getPropertyType() {
+        return this.type;
+    }
+
     Household getHousehold() {
         return this.household;
     }
+
+
 }
