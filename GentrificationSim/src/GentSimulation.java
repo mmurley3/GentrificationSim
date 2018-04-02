@@ -2,8 +2,8 @@
  * Created by Daniel on 3/31/2018.
  */
 public class GentSimulation {
-    private int numSteps = 0;
-    private PropertyGrid propertyGrid;
+    private static int numSteps = 0;
+    private static PropertyGrid propertyGrid;
     
     public static void main(String[] args) {
     	parseArgs(args);
@@ -22,9 +22,12 @@ public class GentSimulation {
     // one iteration of the gentrification simulation
     private static void simStep() {
         // reevaluate property values
+        propertyGrid.evaluateAllPropertyValues();
         // check to see if people need to move out / relocate
         // move new people into grid
+        numSteps++;
     }
+
 
 
 }

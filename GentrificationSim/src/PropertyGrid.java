@@ -7,6 +7,12 @@ public class PropertyGrid {
     private int width;
     private Property[][] grid;
 
+    private double parkConst = 0.2;
+    private double commercialConst = 0.2;
+    private double industrialConst = 0.2;
+    private double adjPropertyConst = 0.2;
+    private double economicStatusConst = 0.2;
+
     public PropertyGrid(int height, int width) {
         this.height = height;
         this.width = width;
@@ -23,13 +29,23 @@ public class PropertyGrid {
     	return grid[height][width];
     }
 
-    public double evaluatePropertyValue(int i , int j) {
-        double parkValue = getPropertyTypeValue(i, j, PropertyType.PARK);
-        double commercialValue = getPropertyTypeValue(i, j, PropertyType.COMMERCIAL);
-        double industrialValue = getPropertyTypeValue(i, j, PropertyType.INDUSTRIAL);
-        double adjPropVals = getAdjPropValues(i, j);
+    public void evaluateAllPropertyValues() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                double newPropValue = evaluatePropertyValue(i, j);
+                grid[i][j].setPropertyValue(newPropValue);
+            }
+        }
+    }
 
-        return (parkValue + commercialValue + industrialValue + adjPropVals) / 4;
+    public double evaluatePropertyValue(int i , int j) {
+        double parkValue = parkConst * getPropertyTypeValue(i, j, PropertyType.PARK);
+        double commercialValue = commercialConst * getPropertyTypeValue(i, j, PropertyType.COMMERCIAL);
+        double industrialValue = industrialConst * getPropertyTypeValue(i, j, PropertyType.INDUSTRIAL);
+        double adjPropValue = adjPropertyConst * getAdjPropValues(i, j);
+        double economicStatusValue = economicStatusConst * grid[i][j].averageHouseholdIncome();
+
+        return parkValue + commercialValue + industrialValue + adjPropValue + economicStatusValue;
     }
 
     public double getPropertyTypeValue(int x, int y, PropertyType type) {
