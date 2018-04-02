@@ -17,15 +17,17 @@ public class GentSimulation {
     
     public static void main(String[] args) {
     	parseInput(args);
-		System.out.println(propertyGrid.getProperty(0, 0).getHouseholds().size());
-    	simStep();
 
+		propertyGrid.printPropertyValues();
 
+		System.out.println();
 
-		//boolean condition = true;
-    	//while (condition) {
-    	//	simStep();
-    	//}
+		for (int i = 0; i < 20; i++) {
+			simStep();
+		}
+
+		propertyGrid.printPropertyValues();
+
     }
     
     //A method to check that arguments are formatted correctly
@@ -79,7 +81,7 @@ public class GentSimulation {
 				}
 				grid[h] = row;
 				h++;
-				System.out.println(line);
+
 			}
 			propertyGrid = new PropertyGrid(grid);
 		} catch (IOException e) {
@@ -98,7 +100,7 @@ public class GentSimulation {
 		ArrayList<Household> relocateHouseholds = propertyGrid.evaluateResidences();
 
         // move new people into grid
-		ArrayList<Household> newHouseholds = new ArrayList<Household>();
+		ArrayList<Household> newHouseholds = new ArrayList<>();
 		if (Math.random() > 0.7) {
 			int numNewHouseholds = (int)(Math.random() * 10);
 			newHouseholds = propertyGrid.generateNewHouseholds(houseID, numNewHouseholds);
