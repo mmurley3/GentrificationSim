@@ -4,24 +4,41 @@
 public class Property {
     private double propertyValue;
     private PropertyType type;
-    private Household household;
+    private Household[] households;
 
-    public Property(double propertyValue, Household household) {
+    public Property(double propertyValue, Household[] households, PropertyType type) {
         this.propertyValue = propertyValue;
-        this.household = household;
+        this.households = households;
+        this.type = type;
     }
 
-    double getPropertyValue() {
+    public void setPropertyValue(double value) {
+    	this.propertyValue = value;
+    }
+
+    public double getPropertyValue() {
         return this.propertyValue;
     }
 
-    PropertyType getPropertyType() {
-        return this.type;
+    public PropertyType getType() {
+    	return type;
     }
 
-    Household getHousehold() {
-        return this.household;
+    public Household[] getHousehold() {
+    	if (type != PropertyType.RESIDENTIAL) {
+    		return null;
+    	}
+    	return this.households;
     }
 
-
+    public double averageHouseholdIncome() {
+    	if (type != PropertyType.RESIDENTIAL) {
+    		return 0;
+    	}
+    	int avg = 0;
+    	for (Household h: households) {
+    		avg += h.getRentBudgetHigh();
+    	}
+    	return avg;
+    }
 }
