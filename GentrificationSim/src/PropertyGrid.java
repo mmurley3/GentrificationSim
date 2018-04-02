@@ -13,8 +13,8 @@ public class PropertyGrid {
         grid = new Property[height][width];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                Household h = new Household(0, 100, 50);
-                this.grid[i][j] = new Property(0, h);
+
+
             }
         }
     }
@@ -38,7 +38,7 @@ public class PropertyGrid {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (grid[i][j].getPropertyType() == type) {
+                if (grid[i][j].getType() == type) {
                     double dist = getDistance(i, j, x, y);
                     double val = grid[i][j].getPropertyValue();
                     propValSum += val / dist;
