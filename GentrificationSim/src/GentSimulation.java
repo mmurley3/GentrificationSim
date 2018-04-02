@@ -15,6 +15,8 @@ public class GentSimulation {
     
     public static void main(String[] args) {
     	parseInput(args);
+    	simStep();
+    	propertyGrid.printPropertyValues();
     	//boolean condition = true;
     	//while (condition) {
     	//	simStep();

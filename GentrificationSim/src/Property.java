@@ -32,13 +32,15 @@ public class Property {
     }
 
     public double averageHouseholdIncome() {
-    	if (type != PropertyType.RESIDENTIAL) {
+    	if (type != PropertyType.RESIDENTIAL || households == null) {
     		return 0;
     	}
-    	int avg = 0;
+    	double sum = 0.0;
     	for (Household h: households) {
-    		avg += h.getRentBudgetHigh();
+            if (h != null) {
+                sum += h.getRentBudgetHigh();
+            }
     	}
-    	return avg;
+    	return sum / households.length;
     }
 }

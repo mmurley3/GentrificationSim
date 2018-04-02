@@ -9,7 +9,7 @@ public class PropertyGrid {
 
     private double parkConst = 0.2;
     private double commercialConst = 0.2;
-    private double industrialConst = 0.2;
+    private double industrialConst = -0.2;
     private double adjPropertyConst = 0.2;
     private double economicStatusConst = 0.2;
 
@@ -38,8 +38,10 @@ public class PropertyGrid {
     public void evaluateAllPropertyValues() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                double newPropValue = evaluatePropertyValue(i, j);
-                grid[i][j].setPropertyValue(newPropValue);
+                if (grid[i][j].getType() == PropertyType.RESIDENTIAL) {
+                    double newPropValue = evaluatePropertyValue(i, j);
+                    grid[i][j].setPropertyValue(newPropValue);
+                }
             }
         }
     }
@@ -69,7 +71,12 @@ public class PropertyGrid {
             }
         }
 
-        return propValSum / numProps;
+        if (numProps == 0) {
+            return 0.0;
+        } else {
+            return propValSum / numProps;
+        }
+
     }
 
     public double getDistance(int x1, int y1, int x2, int y2) {
@@ -77,10 +84,38 @@ public class PropertyGrid {
     }
 
     double getAdjPropValues(int i, int j) {
-        double up = grid[i][j+1].getPropertyValue();
-        double down = grid[i][j-1].getPropertyValue();
-        double left = grid[i-1][j].getPropertyValue();
-        double right = grid[i+1][j+1].getPropertyValue();
-        return (up + down + left + right) / 4;
+        double sum = 0.0;
+        int num = 0;
+        if (j != height-1) {
+            double up = grid[i][j+1].getPropertyValue();
+            sum += up;
+            num++;
+        }
+        if (j != 0) {
+            double down = grid[i][j-1].getPropertyValue();
+            sum += down;
+            num++;
+        }
+        if (i != width-1) {
+            double right = grid[i+1][j].getPropertyValue();
+            sum += right;
+            num++;
+        }
+        if (i != 0) {
+            double left = grid[i-1][j].getPropertyValue();
+            sum += left;
+            num++;
+        }
+
+        return sum / num;
+    }
+
+    public void printPropertyValues() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                System.out.print(grid[i][j].getPropertyValue() + ", ");
+            }
+            System.out.println();
+        }
     }
 }
