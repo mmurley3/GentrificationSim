@@ -8,6 +8,7 @@ public class Household {
 
     public Household(int id, double rentBudgetHigh, double rentBudgetLow) {
         this.id = id;
+
         this.rentBudgetHigh = rentBudgetHigh;
         this.rentBudgetLow = rentBudgetLow;
     }

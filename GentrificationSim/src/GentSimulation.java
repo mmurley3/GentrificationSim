@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Created by Daniel on 3/31/2018.
@@ -16,9 +17,12 @@ public class GentSimulation {
     
     public static void main(String[] args) {
     	parseInput(args);
+		System.out.println(propertyGrid.getProperty(0, 0).getHouseholds().size());
     	simStep();
-    	propertyGrid.printPropertyValues();
-    	//boolean condition = true;
+
+
+
+		//boolean condition = true;
     	//while (condition) {
     	//	simStep();
     	//}
@@ -57,20 +61,19 @@ public class GentSimulation {
 				for (String entry: line.split(";")) {
 					
 					String[] bits = entry.split(",");
-					Household[] households = null;
+					ArrayList<Household> households = new ArrayList<>();
 					int houseNum = Integer.parseInt(bits[2]);
 					if (houseNum > 0) {
-						households = new Household[houseNum];
-						for (int i = 3; i < houseNum * 2; i += 2) {
-							households[i/2 - 1] = new Household(houseID,
-									Integer.parseInt(bits[i]), Integer.parseInt(bits[i + 1]) );
+						for (int i = 3; i < 3 + houseNum * 2; i += 2) {
+							households.add(new Household(houseID, Double.parseDouble(bits[i]), Double.parseDouble(bits[i + 1])));
+							//households[i/2 - 1] = new Household(houseID, Double.parseDouble(bits[i]), Double.parseDouble(bits[i + 1]) );
 							houseID++;
 						}
 					}
 					
 					//Note: these properties are initialized with a null household field
-					Property newProp = new Property(Double.parseDouble(bits[0]),
-							households, PropertyType.valueOf(bits[1]));
+
+					Property newProp = new Property(Double.parseDouble(bits[0]), households, PropertyType.valueOf(bits[1]));
 					row[w] = newProp;
 					w++;
 				}
@@ -90,8 +93,22 @@ public class GentSimulation {
     private static void simStep() {
         // reevaluate property values
         propertyGrid.evaluateAllPropertyValues();
+
         // check to see if people need to move out / relocate
+		ArrayList<Household> relocateHouseholds = propertyGrid.evaluateResidences();
+
         // move new people into grid
+		ArrayList<Household> newHouseholds = new ArrayList<Household>();
+		if (Math.random() > 0.7) {
+			int numNewHouseholds = (int)(Math.random() * 10);
+			newHouseholds = propertyGrid.generateNewHouseholds(houseID, numNewHouseholds);
+		}
+		relocateHouseholds.addAll(newHouseholds);
+
+		// relocate residents
+		propertyGrid.relocateResidents(relocateHouseholds);
+
+
         numSteps++;
     }
 

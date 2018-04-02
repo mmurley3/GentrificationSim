@@ -120,14 +120,15 @@ public class PropertyGrid {
             System.out.println();
         }
     }
-    
+
     public ArrayList<Household> evaluateResidences() {
     	ArrayList<Household> displaced = new ArrayList<Household>();
     	for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (grid[i][j].getType() == PropertyType.RESIDENTIAL) {
                     ArrayList<Household> houses = grid[i][j].getHouseholds();
-                    for (Household h: houses) {
+                    for (int hI = 0; hI < houses.size(); hI++) {
+                        Household h = houses.get(hI);
                     	if (grid[i][j].getPropertyValue() < h.getRentBudgetLow()
                     			|| grid[i][j].getPropertyValue() > h.getRentBudgetHigh()) {
                     		displaced.add(h);
@@ -138,5 +139,80 @@ public class PropertyGrid {
             }
         }
     	return displaced;
+    }
+
+    ArrayList<Household> generateNewHouseholds(int houseId, int numHouseholds) {
+        ArrayList<Household> newHouseholds = new ArrayList<>();
+        for (int i = 0; i < numHouseholds; i++) {
+            newHouseholds.add(generateNewHousehold(houseId));
+        }
+        return newHouseholds;
+    }
+
+    Household generateNewHousehold(int houseId) {
+        double maxRent = getMaxPropertyValue();
+        double minRent = getMinPropertyValue();
+
+        double houseMaxRent = minRent + Math.random() * (maxRent - minRent);
+        double houseMinRent = minRent + Math.random() * (houseMaxRent - minRent);
+
+        return new Household(houseId++, houseMaxRent, houseMinRent);
+    }
+
+
+    public double getMaxPropertyValue() {
+        double max = 0.0;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grid[i][j].getPropertyValue() > max) {
+                    max = grid[i][j].getPropertyValue();
+                }
+            }
+        }
+        return max;
+    }
+
+    public double getMinPropertyValue() {
+        double min = 0.0;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grid[i][j].getPropertyValue() < min) {
+                    min = grid[i][j].getPropertyValue();
+                }
+            }
+        }
+        return min;
+    }
+
+    public void relocateResidents(ArrayList<Household> relocatedHouseholds) {
+        for (int h = 0; h < relocatedHouseholds.size(); h++) {
+            int hI = 0;
+            int hJ = 0;
+            double rentBudgetDiff = Double.MAX_VALUE;
+            Household res = relocatedHouseholds.get(h);
+            boolean propertyFound = false;
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    if (grid[i][j].getType() == PropertyType.RESIDENTIAL) {
+
+                        double propValue = grid[i][j].getPropertyValue();
+
+                            if (propValue <= res.getRentBudgetHigh() && propValue >= res.getRentBudgetLow()) {
+                                double diff = res.getRentBudgetHigh() - propValue;
+                                if (rentBudgetDiff > diff) {
+                                    rentBudgetDiff = diff;
+                                }
+                                hI = i;
+                                hJ = j;
+                                propertyFound = true;
+                            }
+
+                    }
+                }
+            }
+            if (propertyFound) {
+                grid[hI][hJ].addHousehold(res);
+            }
+        }
     }
 }

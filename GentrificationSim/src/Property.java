@@ -9,10 +9,11 @@ public class Property {
     private double propertyValue;
     private PropertyType type;
     private ArrayList<Household> households;
+    private int maxHouseholds;
 
-    public Property(double propertyValue, Household[] households, PropertyType type) {
+    public Property(double propertyValue, ArrayList<Household> households, PropertyType type) {
         this.propertyValue = propertyValue;
-        this.households  = new ArrayList<Household>(Arrays.asList(households));
+        this.households  = households;
         this.type = type;
     }
 
@@ -50,7 +51,7 @@ public class Property {
     }
 
     public double averageHouseholdIncome() {
-    	if (type != PropertyType.RESIDENTIAL || households == null) {
+    	if (type != PropertyType.RESIDENTIAL || households.size() == 0) {
     		return 0;
     	}
     	double sum = 0.0;
@@ -59,6 +60,7 @@ public class Property {
                 sum += h.getRentBudgetHigh();
             }
     	}
+
     	return sum / households.size();
     }
 }
