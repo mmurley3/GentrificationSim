@@ -33,7 +33,7 @@ public class GentSimulation {
     private static void parseInput(String[] args) {
     	FileInputStream fstream = null;
 		try {
-			fstream = new FileInputStream("data.txt");
+			fstream = new FileInputStream(args[0]);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
