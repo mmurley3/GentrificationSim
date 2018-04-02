@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
  */
 public class GentSimulation {
     private static int numSteps = 0;
+    private static int houseID = 0;
     private static PropertyGrid propertyGrid;
     
     public static void main(String[] args) {
@@ -56,10 +57,20 @@ public class GentSimulation {
 				for (String entry: line.split(";")) {
 					
 					String[] bits = entry.split(",");
+					Household[] households = null;
+					int houseNum = Integer.parseInt(bits[2]);
+					if (houseNum > 0) {
+						households = new Household[houseNum];
+						for (int i = 3; i < houseNum * 2; i += 2) {
+							households[i/2 - 1] = new Household(houseID,
+									Integer.parseInt(bits[i]), Integer.parseInt(bits[i + 1]) );
+							houseID++;
+						}
+					}
 					
 					//Note: these properties are initialized with a null household field
 					Property newProp = new Property(Double.parseDouble(bits[0]),
-							null, PropertyType.valueOf(bits[2]));
+							households, PropertyType.valueOf(bits[1]));
 					row[w] = newProp;
 					w++;
 				}
