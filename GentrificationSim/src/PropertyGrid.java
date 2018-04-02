@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by Daniel on 3/31/2018.
  */
@@ -117,5 +119,24 @@ public class PropertyGrid {
             }
             System.out.println();
         }
+    }
+    
+    public ArrayList<Household> evaluateResidences() {
+    	ArrayList<Household> displaced = new ArrayList<Household>();
+    	for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grid[i][j].getType() == PropertyType.RESIDENTIAL) {
+                    ArrayList<Household> houses = grid[i][j].getHouseholds();
+                    for (Household h: houses) {
+                    	if (grid[i][j].getPropertyValue() < h.getRentBudgetLow()
+                    			|| grid[i][j].getPropertyValue() > h.getRentBudgetHigh()) {
+                    		displaced.add(h);
+                    		grid[i][j].removeHousehold(h);
+                    	}
+                    }
+                }
+            }
+        }
+    	return displaced;
     }
 }

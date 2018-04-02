@@ -1,14 +1,18 @@
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by Daniel on 3/31/2018.
  */
 public class Property {
     private double propertyValue;
     private PropertyType type;
-    private Household[] households;
+    private ArrayList<Household> households;
 
     public Property(double propertyValue, Household[] households, PropertyType type) {
         this.propertyValue = propertyValue;
-        this.households = households;
+        this.households  = new ArrayList<Household>(Arrays.asList(households));
         this.type = type;
     }
 
@@ -24,11 +28,25 @@ public class Property {
     	return type;
     }
 
-    public Household[] getHousehold() {
+    public ArrayList<Household> getHouseholds() {
     	if (type != PropertyType.RESIDENTIAL) {
     		return null;
     	}
     	return this.households;
+    }
+    
+    public void addHousehold(Household h) {
+    	households.add(h);
+    }
+    
+    public void removeHousehold(Household h) {
+    	if (households.size() == 0) {
+    		System.out.println("No Households remain");
+    	} else if (!households.contains(h)) {
+    		System.out.println("That Household does not exist");
+    	} else {
+    		households.remove(h);
+    	}
     }
 
     public double averageHouseholdIncome() {
@@ -41,6 +59,6 @@ public class Property {
                 sum += h.getRentBudgetHigh();
             }
     	}
-    	return sum / households.length;
+    	return sum / households.size();
     }
 }
