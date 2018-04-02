@@ -73,7 +73,7 @@ public class GentSimulation {
 					
 					//Note: these properties are initialized with a null household field
 
-					Property newProp = new Property(Double.parseDouble(bits[0]), households, PropertyType.valueOf(bits[1]));
+					Property newProp = new Property(Double.parseDouble(bits[0]), households, 5, PropertyType.valueOf(bits[1]));
 					row[w] = newProp;
 					w++;
 				}

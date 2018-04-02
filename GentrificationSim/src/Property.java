@@ -11,10 +11,19 @@ public class Property {
     private ArrayList<Household> households;
     private int maxHouseholds;
 
-    public Property(double propertyValue, ArrayList<Household> households, PropertyType type) {
+    public Property(double propertyValue, ArrayList<Household> households, int maxHouseholds, PropertyType type) {
         this.propertyValue = propertyValue;
         this.households  = households;
+        this.maxHouseholds = maxHouseholds;
         this.type = type;
+    }
+
+    public void setMaxHouseholds(int maxHouseholds) {
+        this.maxHouseholds = maxHouseholds;
+    }
+
+    public int getMaxHouseholds() {
+        return this.maxHouseholds;
     }
 
     public void setPropertyValue(double value) {

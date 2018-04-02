@@ -194,9 +194,9 @@ public class PropertyGrid {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
                     if (grid[i][j].getType() == PropertyType.RESIDENTIAL) {
-
-                        double propValue = grid[i][j].getPropertyValue();
-
+                        Property prop = grid[i][j];
+                        double propValue = prop.getPropertyValue();
+                        if (prop.getHouseholds().size() < prop.getMaxHouseholds()) {
                             if (propValue <= res.getRentBudgetHigh() && propValue >= res.getRentBudgetLow()) {
                                 double diff = res.getRentBudgetHigh() - propValue;
                                 if (rentBudgetDiff > diff) {
@@ -206,7 +206,7 @@ public class PropertyGrid {
                                 hJ = j;
                                 propertyFound = true;
                             }
-
+                        }
                     }
                 }
             }
