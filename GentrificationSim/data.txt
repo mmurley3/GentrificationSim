@@ -1,0 +1,3 @@
+2,2
+5.0,null,RESIDENTIAL;8.0,null,COMMERCIAL
+2.0,null,PARK;6.0,null,INDUSTRIAL

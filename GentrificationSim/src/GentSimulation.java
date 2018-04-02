@@ -33,11 +33,39 @@ public class GentSimulation {
 		}
         DataInputStream in = new DataInputStream(fstream);
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
-        String line;
+        String line = null;
+        int height;
+        int width;
+        
+        try {
+			line = br.readLine();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        height = Integer.parseInt(line.split(",")[0]);
+        width = Integer.parseInt(line.split(",")[1]);
+        Property[][] grid = new Property[height][];
+        int h = 0;
         try {
 			while ((line = br.readLine()) != null)   {
+				int w = 0;
+				Property[] row = new Property[width];
+				for (String entry: line.split(";")) {
+					
+					String[] bits = entry.split(",");
+					
+					//Note: these properties are initialized with a null household field
+					Property newProp = new Property(Double.parseDouble(bits[0]),
+							null, PropertyType.valueOf(bits[2]));
+					row[w] = newProp;
+					w++;
+				}
+				grid[h] = row;
+				h++;
 				System.out.println(line);
 			}
+			propertyGrid = new PropertyGrid(grid);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
