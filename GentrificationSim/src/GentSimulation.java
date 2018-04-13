@@ -7,15 +7,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import java.net.*;
+
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.*;
+import javafx.scene.*;
+import javafx.stage.Stage;
+import javafx.application.Application;
+
 /**
  * Created by Daniel on 3/31/2018.
  */
-public class GentSimulation {
+public class GentSimulation extends Application{
     private static int numSteps = 0;
     private static int houseID = 0;
     private static PropertyGrid propertyGrid;
     
     public static void main(String[] args) {
+    	launch();
     	parseInput(args);
 
 		propertyGrid.printPropertyValues();
@@ -28,6 +37,16 @@ public class GentSimulation {
 
 		propertyGrid.printPropertyValues();
 
+    }
+    @Override
+    public void start(Stage stage) throws Exception {
+       Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
+    
+        Scene scene = new Scene(root, 800, 600);
+    
+        stage.setTitle("Welcome");
+        stage.setScene(scene);
+        stage.show();
     }
     
     //A method to check that arguments are formatted correctly
