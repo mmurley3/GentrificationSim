@@ -186,7 +186,8 @@ public class PropertyGrid {
         return min;
     }
 
-    public void relocateResidents(ArrayList<Household> relocatedHouseholds) {
+    public ArrayList<Household> relocateResidents(ArrayList<Household> relocatedHouseholds) {
+        ArrayList<Household> movedOutOfGrid = new ArrayList<>();
         for (int h = 0; h < relocatedHouseholds.size(); h++) {
             int hI = 0;
             int hJ = 0;
@@ -209,6 +210,10 @@ public class PropertyGrid {
                                 propertyFound = true;
                             }
                         }
+                    } else {
+                        if (!propertyFound && i == width-1 && j == height-1) {
+                            movedOutOfGrid.add(res);
+                        }
                     }
                 }
             }
@@ -216,5 +221,6 @@ public class PropertyGrid {
                 grid[hI][hJ].addHousehold(res);
             }
         }
+        return movedOutOfGrid;
     }
 }
