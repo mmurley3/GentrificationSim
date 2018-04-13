@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.*;
 
 import java.net.*;
 
@@ -19,23 +19,34 @@ import javafx.application.Application;
  * Created by Daniel on 3/31/2018.
  */
 public class GentSimulation extends Application{
+	private static int totalNumSteps = 10;
     private static int numSteps = 0;
     private static int houseID = 0;
     private static PropertyGrid propertyGrid;
-    
+	private static double CHANCE_TO_ADD_NEW_HOUSEHOLD = 0.7;
+    private static int MAX_NUM_HOUSEHOLDS_TO_ADD = 10;
+
+
+	private  static ArrayList<Household> totalRelocatedHousehold = new ArrayList<>();
+	private  static ArrayList<Household> totalMovedOutHousehold = new ArrayList<>();
+
+
     public static void main(String[] args) {
     	launch();
+
     	parseInput(args);
 
 		propertyGrid.printPropertyValues();
 
 		System.out.println();
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < totalNumSteps; i++) {
 			simStep();
 		}
 
 		propertyGrid.printPropertyValues();
+		System.out.println();
+		printHouseHoldRelocateStats();
 
     }
     @Override
@@ -117,21 +128,42 @@ public class GentSimulation extends Application{
 
         // check to see if people need to move out / relocate
 		ArrayList<Household> relocateHouseholds = propertyGrid.evaluateResidences();
+		totalRelocatedHousehold.addAll(relocateHouseholds);
 
         // move new people into grid
 		ArrayList<Household> newHouseholds = new ArrayList<>();
-		if (Math.random() > 0.7) {
-			int numNewHouseholds = (int)(Math.random() * 10);
+		if (Math.random() > CHANCE_TO_ADD_NEW_HOUSEHOLD) {
+			int numNewHouseholds = (int)(Math.random() * MAX_NUM_HOUSEHOLDS_TO_ADD);
 			newHouseholds = propertyGrid.generateNewHouseholds(houseID, numNewHouseholds);
 		}
 		relocateHouseholds.addAll(newHouseholds);
 
 		// relocate residents
-		propertyGrid.relocateResidents(relocateHouseholds);
-
+		ArrayList<Household> movedOutHouseholds = propertyGrid.relocateResidents(relocateHouseholds);
+		totalMovedOutHousehold.addAll(movedOutHouseholds);
 
         numSteps++;
     }
+
+    public static void printHouseHoldRelocateStats() {
+    	Map<Household, Integer> relocatedStats = new HashMap<>();
+    	for (int i = 0; i < totalRelocatedHousehold.size(); i++) {
+    		Household h = totalRelocatedHousehold.get(i);
+    		if (relocatedStats.containsKey(h)) {
+    			relocatedStats.put(h, relocatedStats.get(h) + 1);
+			} else {
+    			relocatedStats.put(h, 1);
+			}
+		}
+
+		for (Map.Entry<Household, Integer> entry : relocatedStats.entrySet()) {
+    		if (totalMovedOutHousehold.contains(entry.getKey())) {
+				System.out.println("ID: " + entry.getKey().getId() + ", Economic Status: " + entry.getKey().getRentBudgetHigh() + ", Relocated: " + entry.getValue() + ", Moved OUt of Grid");
+			} else {
+				System.out.println("ID: " + entry.getKey().getId() + ", Economic Status: " + entry.getKey().getRentBudgetHigh() + ", Relocated: " + entry.getValue());
+			}
+    	}
+	}
 
 
 
