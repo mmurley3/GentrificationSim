@@ -27,6 +27,14 @@ public class PropertyGrid {
             }
         }
     }
+
+    int getWidth() {
+        return width;
+    }
+
+    int getHeight() {
+        return height;
+    }
     
     public PropertyGrid(Property[][] grid) {
     	this.grid = grid;
