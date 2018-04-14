@@ -72,4 +72,16 @@ public class Property {
 
     	return sum / households.size();
     }
+
+    public void printType() {
+        if (type == PropertyType.COMMERCIAL) {
+            System.out.println("COMM");
+        } else if (type == PropertyType.INDUSTRIAL) {
+            System.out.println("IND");
+        } else if (type == PropertyType.RESIDENTIAL) {
+            System.out.println("RES");
+        } else if (type == PropertyType.PARK) {
+            System.out.println("PARK");
+        }
+    }
 }

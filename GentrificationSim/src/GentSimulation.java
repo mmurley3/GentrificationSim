@@ -62,12 +62,11 @@ public class GentSimulation extends Application{
 		grid.setPadding(new Insets(10, 10, 10, 10));
 		double gridUIWidth = grid.getWidth();
 		double gridUIHeight = grid.getHeight();
-		grid.setVgap(-1);
+		grid.setVgap(-1.0);
 		grid.setHgap(0.0);
 
-
-		for(int i = 0; i < gridWidth; i++) {
-			for (int j = 0; j < gridHeight; j++) {
+		for(int i = 0; i < gridHeight; i++) {
+			for (int j = 0; j < gridWidth; j++) {
 				Rectangle rec = new Rectangle();
 				rec.setWidth(gridUIWidth / gridWidth);
 				rec.setHeight(gridUIHeight / gridHeight);
@@ -77,28 +76,22 @@ public class GentSimulation extends Application{
 				if (prop.getType() == PropertyType.RESIDENTIAL) {
 
 					rec.setFill(new Color(0.0, 0.0, v / 10.0, 1.0));
-
 				} else if (prop.getType() == PropertyType.COMMERCIAL) {
 
 					rec.setFill(new Color(v / 10.0, 0.0, v / 10.0, 1.0));
-
 				} else if (prop.getType() == PropertyType.PARK) {
 
 					rec.setFill(new Color(0.0, v / 10.0, 0.0, 1.0));
-
 				} else if (prop.getType() == PropertyType.INDUSTRIAL) {
 
 					rec.setFill(new Color(v / 10.0, 0.0, 0.0, 1.0));
-
 				}
-
 
 				rec.setStrokeWidth(2.0);
 				rec.setStroke(Color.BLACK);
 				GridPane.setRowIndex(rec, i);
 				GridPane.setColumnIndex(rec, j);
 				grid.getChildren().addAll(rec);
-
 			}
 		}
 	}
