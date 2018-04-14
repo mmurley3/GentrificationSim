@@ -41,8 +41,6 @@ public class GentSimulation extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-    	String arg = "data.txt";
-    	parseInput(arg);
     	Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
     
         Scene scene = new Scene(root, 800, 600);
@@ -50,8 +48,14 @@ public class GentSimulation extends Application{
         stage.setTitle("GentSim");
         stage.setScene(scene);
         stage.show();
-        
-		generateGridUI(scene);
+    }
+    
+    public static void step(int x) {
+    	for (int i = 0; i < x; i++) {
+    		System.out.println("STEPPING!");
+    		//simStep();
+    		numSteps++;
+    	}
     }
 
     public static void generateGridUI(Scene scene) {

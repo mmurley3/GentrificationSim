@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -14,5 +15,17 @@
       </VBox>
       <GridPane id="property_grid" layoutX="227.0" layoutY="30.0" prefHeight="341.0" prefWidth="345.0">
       </GridPane>
+      <VBox layoutX="44.0" layoutY="98.0" prefHeight="0.0" prefWidth="95.0">
+         <children>
+            <Button id="import_button" fx:id="stepButton" mnemonicParsing="false" onAction="#handleStep" prefHeight="26.0" prefWidth="95.0" text="Step" />
+         </children>
+      </VBox>
+      <VBox layoutX="44.0" layoutY="145.0" prefHeight="26.0" prefWidth="60.0">
+         <children>
+            <Button id="import_button" fx:id="runButton" mnemonicParsing="false" onAction="#handleRun" prefHeight="26.0" prefWidth="58.0" text="Run" />
+         </children>
+      </VBox>
+      <VBox layoutX="106.0" layoutY="207.0" prefHeight="33.0" prefWidth="35.0" />
+      <TextField fx:id="runSteps" layoutX="106.0" layoutY="142.0" prefHeight="33.0" prefWidth="35.0" />
    </children>
 </Pane>
