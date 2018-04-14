@@ -51,7 +51,7 @@ public class GentSimulation extends Application{
         stage.setScene(scene);
         stage.show();
         
-		//generateGridUI(scene);
+		generateGridUI(scene);
     }
 
     public static void generateGridUI(Scene scene) {
