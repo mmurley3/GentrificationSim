@@ -15,6 +15,7 @@ import javafx.scene.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
@@ -40,8 +41,8 @@ public class GentSimulation extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-    	String[] args = {"data.txt"};
-    	parseInput(args);
+    	String arg = "data.txt";
+    	parseInput(arg);
     	Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
     
         Scene scene = new Scene(root, 800, 600);
@@ -49,7 +50,8 @@ public class GentSimulation extends Application{
         stage.setTitle("GentSim");
         stage.setScene(scene);
         stage.show();
-		generateGridUI(scene);
+        
+		//generateGridUI(scene);
     }
 
     public static void generateGridUI(Scene scene) {
@@ -103,10 +105,10 @@ public class GentSimulation extends Application{
     
     //A method to check that arguments are formatted correctly
     //and then initialize the simulation based on them
-    private static void parseInput(String[] args) {
+    public static void parseInput(String file) {
     	FileInputStream fstream = null;
 		try {
-			fstream = new FileInputStream(args[0]);
+			fstream = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
