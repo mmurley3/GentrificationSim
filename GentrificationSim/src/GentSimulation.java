@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import java.net.*;
@@ -13,8 +14,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.application.Application;
@@ -50,52 +55,65 @@ public class GentSimulation extends Application{
         stage.show();
     }
     
-    public static void step(int x) {
+    public static void step(int x, Scene scene) {
     	for (int i = 0; i < x; i++) {
-    		System.out.println("STEPPING!");
-    		//simStep();
+    		simStep();
     		numSteps++;
     	}
+		generateGridUI(scene, scene.getHeight() * 0.6, scene.getWidth() * 0.6);
     }
 
-    public static void generateGridUI(Scene scene) {
+    public static void generateGridUI(Scene scene, double gUIHeight, double gUIWidth) {
     	int gridWidth = propertyGrid.getWidth();
     	int gridHeight = propertyGrid.getHeight();
 
 		GridPane grid = (GridPane) scene.lookup("#property_grid");
+		grid.getChildren().clear();
 		grid.setPadding(new Insets(10, 10, 10, 10));
-		double gridUIWidth = grid.getWidth();
-		double gridUIHeight = grid.getHeight();
+		double gridUIWidth = gUIWidth;
+		double gridUIHeight = gUIHeight;
+
 		grid.setVgap(-1.0);
 		grid.setHgap(0.0);
 
 		for(int i = 0; i < gridHeight; i++) {
 			for (int j = 0; j < gridWidth; j++) {
+
 				Rectangle rec = new Rectangle();
-				rec.setWidth(gridUIWidth / gridWidth);
-				rec.setHeight(gridUIHeight / gridHeight);
+
 				Property prop = propertyGrid.getProperty(i, j);
 				double v = Math.abs(prop.getPropertyValue());
+				double vr = (double) Math.round(v*100)/100;
+				Text value = new Text(Double.toString(vr));
+				value.setFill(Color.WHITE);
+				GridPane.setHalignment(value, HPos.CENTER);
+
+				double mappingValue = 8;
+				v = v / mappingValue;
+				v = Math.min(v, 1.0);
 
 				if (prop.getType() == PropertyType.RESIDENTIAL) {
 
-					rec.setFill(new Color(0.0, 0.0, v / 10.0, 1.0));
+					rec.setFill(new Color(0.0, 0.0, v , 1.0));
 				} else if (prop.getType() == PropertyType.COMMERCIAL) {
 
-					rec.setFill(new Color(v / 10.0, 0.0, v / 10.0, 1.0));
+					rec.setFill(new Color(v, 0.0, v, 1.0));
 				} else if (prop.getType() == PropertyType.PARK) {
 
-					rec.setFill(new Color(0.0, v / 10.0, 0.0, 1.0));
+					rec.setFill(new Color(0.0, v, 0.0, 1.0));
 				} else if (prop.getType() == PropertyType.INDUSTRIAL) {
 
-					rec.setFill(new Color(v / 10.0, 0.0, 0.0, 1.0));
+					rec.setFill(new Color(v, 0.0, 0.0, 1.0));
 				}
 
 				rec.setStrokeWidth(2.0);
 				rec.setStroke(Color.BLACK);
-				GridPane.setRowIndex(rec, i);
-				GridPane.setColumnIndex(rec, j);
-				grid.getChildren().addAll(rec);
+				rec.setWidth(gridUIWidth / gridWidth);
+				rec.setHeight(gridUIHeight / gridHeight);
+
+				grid.add(rec, j, i);
+				grid.add(value, j, i);
+
 			}
 		}
 	}

@@ -49,21 +49,21 @@ public class PropertyGrid {
     public void evaluateAllPropertyValues() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (grid[i][j].getType() == PropertyType.RESIDENTIAL) {
+                if (grid[j][i].getType() == PropertyType.RESIDENTIAL) {
                     double newPropValue = evaluatePropertyValue(i, j);
-                    grid[i][j].setPropertyValue(newPropValue);
+                    grid[j][i].setPropertyValue(newPropValue);
                 }
             }
         }
     }
 
     public double evaluatePropertyValue(int i , int j) {
-        double originalPropValue = originalConst * grid[i][j].getPropertyValue();
+        double originalPropValue = originalConst * grid[j][i].getPropertyValue();
         double parkValue = parkConst * getPropertyTypeValue(i, j, PropertyType.PARK);
         double commercialValue = commercialConst * getPropertyTypeValue(i, j, PropertyType.COMMERCIAL);
         double industrialValue = industrialConst * getPropertyTypeValue(i, j, PropertyType.INDUSTRIAL);
         double adjPropValue = adjPropertyConst * getAdjPropValues(i, j);
-        double economicStatusValue = economicStatusConst * grid[i][j].averageHouseholdIncome();
+        double economicStatusValue = economicStatusConst * grid[j][i].averageHouseholdIncome();
 
         return originalPropValue + parkValue + commercialValue + industrialValue + adjPropValue + economicStatusValue;
     }
@@ -74,9 +74,9 @@ public class PropertyGrid {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (grid[i][j].getType() == type) {
+                if (grid[j][i].getType() == type) {
                     double dist = getDistance(i, j, x, y);
-                    double val = grid[i][j].getPropertyValue();
+                    double val = grid[j][i].getPropertyValue();
                     propValSum += val / dist;
                     numProps++;
                 }
@@ -99,22 +99,22 @@ public class PropertyGrid {
         double sum = 0.0;
         int num = 0;
         if (j != height-1) {
-            double up = grid[i][j+1].getPropertyValue();
+            double up = grid[j+1][i].getPropertyValue();
             sum += up;
             num++;
         }
         if (j != 0) {
-            double down = grid[i][j-1].getPropertyValue();
+            double down = grid[j-1][i].getPropertyValue();
             sum += down;
             num++;
         }
         if (i != width-1) {
-            double right = grid[i+1][j].getPropertyValue();
+            double right = grid[j][i+1].getPropertyValue();
             sum += right;
             num++;
         }
         if (i != 0) {
-            double left = grid[i-1][j].getPropertyValue();
+            double left = grid[j][i-1].getPropertyValue();
             sum += left;
             num++;
         }
@@ -125,7 +125,7 @@ public class PropertyGrid {
     public void printPropertyValues() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                System.out.print(grid[i][j].getPropertyValue() + ", ");
+                System.out.print(grid[j][i].getPropertyValue() + ", ");
             }
             System.out.println();
         }
@@ -135,14 +135,14 @@ public class PropertyGrid {
     	ArrayList<Household> displaced = new ArrayList<Household>();
     	for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (grid[i][j].getType() == PropertyType.RESIDENTIAL) {
-                    ArrayList<Household> houses = grid[i][j].getHouseholds();
+                if (grid[j][i].getType() == PropertyType.RESIDENTIAL) {
+                    ArrayList<Household> houses = grid[j][i].getHouseholds();
                     for (int hI = 0; hI < houses.size(); hI++) {
                         Household h = houses.get(hI);
-                    	if (grid[i][j].getPropertyValue() < h.getRentBudgetLow()
-                    			|| grid[i][j].getPropertyValue() > h.getRentBudgetHigh()) {
+                    	if (grid[j][i].getPropertyValue() < h.getRentBudgetLow()
+                    			|| grid[j][i].getPropertyValue() > h.getRentBudgetHigh()) {
                     		displaced.add(h);
-                    		grid[i][j].removeHousehold(h);
+                    		grid[j][i].removeHousehold(h);
                     	}
                     }
                 }
@@ -174,8 +174,8 @@ public class PropertyGrid {
         double max = 0.0;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (grid[i][j].getPropertyValue() > max) {
-                    max = grid[i][j].getPropertyValue();
+                if (grid[j][i].getPropertyValue() > max) {
+                    max = grid[j][i].getPropertyValue();
                 }
             }
         }
@@ -186,8 +186,8 @@ public class PropertyGrid {
         double min = 0.0;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (grid[i][j].getPropertyValue() < min) {
-                    min = grid[i][j].getPropertyValue();
+                if (grid[j][i].getPropertyValue() < min) {
+                    min = grid[j][i].getPropertyValue();
                 }
             }
         }
@@ -204,8 +204,8 @@ public class PropertyGrid {
             boolean propertyFound = false;
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
-                    if (grid[i][j].getType() == PropertyType.RESIDENTIAL) {
-                        Property prop = grid[i][j];
+                    if (grid[j][i].getType() == PropertyType.RESIDENTIAL) {
+                        Property prop = grid[j][i];
                         double propValue = prop.getPropertyValue();
                         if (prop.getHouseholds().size() < prop.getMaxHouseholds()) {
                             if (propValue <= res.getRentBudgetHigh() && propValue >= res.getRentBudgetLow()) {
@@ -226,7 +226,7 @@ public class PropertyGrid {
                 }
             }
             if (propertyFound) {
-                grid[hI][hJ].addHousehold(res);
+                grid[hJ][hI].addHousehold(res);
             }
         }
         return movedOutOfGrid;
