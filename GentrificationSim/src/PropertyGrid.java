@@ -9,12 +9,12 @@ public class PropertyGrid {
     private int width;
     private Property[][] grid;
 
-    private double originalConst = 0.5;
-    private double parkConst = 0.1;
-    private double commercialConst = 0.1;
-    private double industrialConst = -0.1;
-    private double adjPropertyConst = 0.1;
-    private double economicStatusConst = 0.1;
+    private double originalConst = 0.6;
+    private double parkConst = 0.3;
+    private double commercialConst = 0.3;
+    private double industrialConst = -0.3;
+    private double adjPropertyConst = 0.05;
+    private double economicStatusConst = 0.05;
 
     public PropertyGrid(int height, int width) {
         this.height = height;
@@ -65,6 +65,8 @@ public class PropertyGrid {
         double adjPropValue = adjPropertyConst * getAdjPropValues(i, j);
         double economicStatusValue = economicStatusConst * grid[j][i].averageHouseholdIncome();
 
+        //System.out.println(originalPropValue +" + "+ parkValue +" + "+ commercialValue +" + "+ industrialValue +" + "+ adjPropValue +" + "+ economicStatusValue);
+
         return originalPropValue + parkValue + commercialValue + industrialValue + adjPropValue + economicStatusValue;
     }
 
@@ -77,7 +79,7 @@ public class PropertyGrid {
                 if (grid[j][i].getType() == type) {
                     double dist = getDistance(i, j, x, y);
                     double val = grid[j][i].getPropertyValue();
-                    propValSum += val / dist;
+                    propValSum += val / (dist*0.5);
                     numProps++;
                 }
             }
@@ -139,10 +141,11 @@ public class PropertyGrid {
                     ArrayList<Household> houses = grid[j][i].getHouseholds();
                     for (int hI = 0; hI < houses.size(); hI++) {
                         Household h = houses.get(hI);
-                    	if (grid[j][i].getPropertyValue() < h.getRentBudgetLow()
-                    			|| grid[j][i].getPropertyValue() > h.getRentBudgetHigh()) {
-                    		displaced.add(h);
-                    		grid[j][i].removeHousehold(h);
+                    	if (grid[j][i].getPropertyValue() < h.getRentBudgetLow()) {
+                            if (grid[j][i].getPropertyValue() > h.getRentBudgetHigh()) {
+                                displaced.add(h);
+                                grid[j][i].removeHousehold(h);
+                            }
                     	}
                     }
                 }
