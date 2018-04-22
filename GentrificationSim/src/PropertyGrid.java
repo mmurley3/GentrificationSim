@@ -134,18 +134,16 @@ public class PropertyGrid {
     }
 
     public ArrayList<Household> evaluateResidences() {
-    	ArrayList<Household> displaced = new ArrayList<Household>();
+    	ArrayList<Household> displaced = new ArrayList<>();
     	for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (grid[j][i].getType() == PropertyType.RESIDENTIAL) {
                     ArrayList<Household> houses = grid[j][i].getHouseholds();
                     for (int hI = 0; hI < houses.size(); hI++) {
                         Household h = houses.get(hI);
-                    	if (grid[j][i].getPropertyValue() < h.getRentBudgetLow()) {
-                            if (grid[j][i].getPropertyValue() > h.getRentBudgetHigh()) {
-                                displaced.add(h);
-                                grid[j][i].removeHousehold(h);
-                            }
+                    	if (grid[j][i].getPropertyValue() < h.getRentBudgetLow() || grid[j][i].getPropertyValue() > h.getRentBudgetHigh()) {
+                            displaced.add(h);
+                            grid[j][i].removeHousehold(h);
                     	}
                     }
                 }
@@ -221,15 +219,13 @@ public class PropertyGrid {
                                 propertyFound = true;
                             }
                         }
-                    } else {
-                        if (!propertyFound && i == width-1 && j == height-1) {
-                            movedOutOfGrid.add(res);
-                        }
                     }
                 }
             }
             if (propertyFound) {
                 grid[hJ][hI].addHousehold(res);
+            } else {
+                movedOutOfGrid.add(res);
             }
         }
         return movedOutOfGrid;

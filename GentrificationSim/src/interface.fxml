@@ -47,7 +47,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Households Displaced:" wrappingWidth="154.0" GridPane.rowIndex="1">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Households Relocated:" wrappingWidth="154.0" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -63,7 +63,7 @@
                      </font>
                   </Text>
                   <Text id="households_removed_result" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" />
-                  <Text id="households_displaced_result" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Text id="households_relocated_result" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Text id="Avg_Rent_Budget_Displaced" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Text id="Avg_Property_Value" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>

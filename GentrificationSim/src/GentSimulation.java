@@ -65,12 +65,12 @@ public class GentSimulation extends Application{
     }
 
     public static void updateResults(Scene scene) {
-		Text nhr = (Text) scene.lookup("#households_removed_result");
-		Text nhd = (Text) scene.lookup("#households_displaced_result");
+		Text numRelocatedText = (Text) scene.lookup("#households_relocated_result");
+		Text numRemovedText = (Text) scene.lookup("#households_removed_result");
 		Text arbd = (Text) scene.lookup("#Avg_Rent_Budget_Displaced");
 		Text apv = (Text) scene.lookup("#Avg_Property_Value");
 
-		int numDisplaced = totalMovedOutHousehold.size();
+		int numRemoved = totalMovedOutHousehold.size();
 		int numRelocated = totalRelocatedHousehold.size();
 
 		double avgRentBudgetDisplaced = 0.0;
@@ -94,8 +94,8 @@ public class GentSimulation extends Application{
 		avgRentBudgetDisplaced = (double) Math.round(avgRentBudgetDisplaced*100)/100;
 		avgPropValue = (double) Math.round(avgPropValue*100)/100;
 
-		nhr.setText(Integer.toString(numRelocated));
-		nhd.setText(Integer.toString(numDisplaced));
+        numRelocatedText.setText(Integer.toString(numRelocated));
+        numRemovedText.setText(Integer.toString(numRemoved));
 		arbd.setText(Double.toString(avgRentBudgetDisplaced));
 		apv.setText(Double.toString(avgPropValue));
 
@@ -224,7 +224,6 @@ public class GentSimulation extends Application{
 
         // check to see if people need to move out / relocate
 		ArrayList<Household> relocateHouseholds = propertyGrid.evaluateResidences();
-		totalRelocatedHousehold.addAll(relocateHouseholds);
 
         // move new people into grid
 		ArrayList<Household> newHouseholds = new ArrayList<>();
@@ -234,9 +233,14 @@ public class GentSimulation extends Application{
 		}
 		relocateHouseholds.addAll(newHouseholds);
 
+        totalRelocatedHousehold.addAll(relocateHouseholds);
+
 		// relocate residents
 		ArrayList<Household> movedOutHouseholds = propertyGrid.relocateResidents(relocateHouseholds);
 		totalMovedOutHousehold.addAll(movedOutHouseholds);
+
+		//System.out.println("moved out: " + totalMovedOutHousehold.size());
+        //System.out.println("relocated: " + totalRelocatedHousehold.size());
 
         numSteps++;
     }
