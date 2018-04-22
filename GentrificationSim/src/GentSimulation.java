@@ -61,7 +61,45 @@ public class GentSimulation extends Application{
     		numSteps++;
     	}
 		generateGridUI(scene, scene.getHeight() * 0.6, scene.getWidth() * 0.6);
+		updateResults(scene);
     }
+
+    public static void updateResults(Scene scene) {
+		Text nhr = (Text) scene.lookup("#households_removed_result");
+		Text nhd = (Text) scene.lookup("#households_displaced_result");
+		Text arbd = (Text) scene.lookup("#Avg_Rent_Budget_Displaced");
+		Text apv = (Text) scene.lookup("#Avg_Property_Value");
+
+		int numDisplaced = totalMovedOutHousehold.size();
+		int numRelocated = totalRelocatedHousehold.size();
+
+		double avgRentBudgetDisplaced = 0.0;
+
+		for (Household h : totalRelocatedHousehold) {
+			avgRentBudgetDisplaced += h.getRentBudgetHigh();
+		}
+
+		if (numRelocated != 0) {
+			avgRentBudgetDisplaced /= numRelocated;
+		}
+
+		double avgPropValue = 0.0;
+		for (int i = 0; i < propertyGrid.getHeight(); i++) {
+			for (int j = 0; j < propertyGrid.getWidth(); j++) {
+				avgPropValue += propertyGrid.getProperty(i, j).getPropertyValue();
+			}
+		}
+		avgPropValue /= propertyGrid.getHeight() * propertyGrid.getWidth();
+
+		avgRentBudgetDisplaced = (double) Math.round(avgRentBudgetDisplaced*100)/100;
+		avgPropValue = (double) Math.round(avgPropValue*100)/100;
+
+		nhr.setText(Integer.toString(numRelocated));
+		nhd.setText(Integer.toString(numDisplaced));
+		arbd.setText(Double.toString(avgRentBudgetDisplaced));
+		apv.setText(Double.toString(avgPropValue));
+
+	}
 
     public static void generateGridUI(Scene scene, double gUIHeight, double gUIWidth) {
     	int gridWidth = propertyGrid.getWidth();

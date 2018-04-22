@@ -1,31 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <VBox layoutX="44.0" layoutY="57.0" prefHeight="0.0" prefWidth="95.0">
+      <Pane prefHeight="200.0" prefWidth="252.0">
          <children>
-            <Button id="import_button" fx:id="importButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="95.0" text="Import File" />
+            <VBox prefHeight="0.0" prefWidth="95.0" />
+            <VBox prefHeight="0.0" prefWidth="95.0" />
+            <VBox layoutX="121.0" layoutY="100.0" prefHeight="26.0" prefWidth="60.0" />
+            <TextField fx:id="runSteps" layoutX="95.0" layoutY="123.0" prefHeight="33.0" prefWidth="35.0" />
+            <Button id="import_button" fx:id="runButton" layoutX="31.0" layoutY="126.0" mnemonicParsing="false" onAction="#handleRun" prefHeight="26.0" prefWidth="58.0" text="Run" />
+            <Button id="import_button" fx:id="stepButton" layoutX="31.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleStep" prefHeight="26.0" prefWidth="95.0" text="Step" />
+            <Button id="import_button" fx:id="importButton" layoutX="31.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="95.0" text="Import File" />
          </children>
-      </VBox>
-      <GridPane id="property_grid" layoutX="227.0" layoutY="30.0" prefHeight="341.0" prefWidth="345.0">
-      </GridPane>
-      <VBox layoutX="44.0" layoutY="98.0" prefHeight="0.0" prefWidth="95.0">
+      </Pane>
+      <Pane layoutX="267.0" layoutY="11.0" prefHeight="377.0" prefWidth="319.0">
          <children>
-            <Button id="import_button" fx:id="stepButton" mnemonicParsing="false" onAction="#handleStep" prefHeight="26.0" prefWidth="95.0" text="Step" />
+            <GridPane id="property_grid" layoutX="1.0" prefHeight="200.0" prefWidth="318.0" />
          </children>
-      </VBox>
-      <VBox layoutX="44.0" layoutY="145.0" prefHeight="26.0" prefWidth="60.0">
+      </Pane>
+      <Pane layoutX="14.0" layoutY="186.0" prefHeight="200.0" prefWidth="282.0">
          <children>
-            <Button id="import_button" fx:id="runButton" mnemonicParsing="false" onAction="#handleRun" prefHeight="26.0" prefWidth="58.0" text="Run" />
+            <GridPane layoutY="58.0" prefHeight="98.0" prefWidth="237.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="202.0" minWidth="10.0" prefWidth="195.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="10.0" prefWidth="38.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Households Removed:" wrappingWidth="154.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Households Displaced:" wrappingWidth="154.0" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Rent Budget of Displaced:" wrappingWidth="193.0" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Property Value of Grid:" wrappingWidth="174.0" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text id="households_removed_result" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" />
+                  <Text id="households_displaced_result" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Text id="Avg_Rent_Budget_Displaced" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Text id="Avg_Property_Value" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <Text layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Results:" wrappingWidth="95.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
          </children>
-      </VBox>
-      <VBox layoutX="106.0" layoutY="207.0" prefHeight="33.0" prefWidth="35.0" />
-      <TextField fx:id="runSteps" layoutX="106.0" layoutY="142.0" prefHeight="33.0" prefWidth="35.0" />
+      </Pane>
    </children>
 </Pane>
