@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GentrificationSim:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/GentrificationSim_jar</output-path>
+    <root id="archive" name="GentrificationSim.jar">
+      <element id="module-output" name="GentrificationSim" />
+    </root>
+  </artifact>
+</component>
